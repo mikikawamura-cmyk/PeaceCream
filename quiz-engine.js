@@ -16,8 +16,9 @@ const actionGroups=[
 ];
 const actions=actionGroups.flatMap(([value,lens,context,texts])=>texts.map((text,i)=>({id:`${value}-${i}`,value,lens,context,text})));
 function valid(a){return C.questions.slice(0,10).every(q=>Number.isInteger(a[q.id])&&a[q.id]>=0&&a[q.id]<4)&&Array.isArray(a.q11)&&a.q11.length===2&&new Set(a.q11).size===2&&a.q11.every(v=>C.values.some(x=>x.id===v))&&typeof a.q12==='string'&&a.q12.trim().length>0&&a.q12.length<=40}
-function score(a){
- if(!valid(a))throw Error('Complete all twelve questions.');
+function score(a,options={}){
+ const structured=C.questions.slice(0,10).every(q=>Number.isInteger(a[q.id])&&a[q.id]>=0&&a[q.id]<4)&&Array.isArray(a.q11)&&a.q11.length===2&&new Set(a.q11).size===2&&a.q11.every(v=>C.values.some(x=>x.id===v));
+ if(!(options.structuredOnly?structured:valid(a)))throw Error('Complete all twelve questions.');
  const fs=Object.fromEntries(C.flavors.map(f=>[f.id,0]));C.questions.slice(0,3).forEach(q=>fs[q.choices[a[q.id]][1]]++);
  const tied=C.flavors.filter(f=>fs[f.id]===Math.max(...Object.values(fs))).map(f=>f.id);
  const primary=C.questions.slice(0,3).map(q=>q.choices[a[q.id]][1]).find(id=>tied.includes(id));

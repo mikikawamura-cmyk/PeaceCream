@@ -1,0 +1,26 @@
+import {PGlite} from '@electric-sql/pglite';import {readFile} from 'node:fs/promises';import {createRequire}from'node:module';import assert from'node:assert/strict';const require=createRequire(import.meta.url),{normalize,hash}=require('../lib/domain.cjs'),{fixture}=require('./response-fixtures.cjs');
+const assets=new URL('../node_modules/@electric-sql/pglite/dist/',import.meta.url);
+const db=new PGlite({pgliteWasmModule:await WebAssembly.compile(await readFile(new URL('pglite.wasm',assets))),initdbWasmModule:await WebAssembly.compile(await readFile(new URL('initdb.wasm',assets))),fsBundle:new Blob([await readFile(new URL('pglite.data',assets))])});let checks=0;await db.exec(`create role anon;create role authenticated;create role service_role bypassrls;create schema auth;create table auth.users(id uuid primary key);create function auth.uid() returns uuid language sql stable as $$select nullif(current_setting('request.jwt.claim.sub',true),'')::uuid$$;grant usage on schema public,auth to anon,authenticated,service_role;`);
+await db.exec(await readFile(new URL('../supabase/migrations/202611110001_responses.sql',import.meta.url),'utf8'));
+const rpc=async(name,args)=>db.query(`select public.${name}(${args.map((_,i)=>'$'+(i+1)).join(',')}) as value`,args);
+const p=normalize(fixture());let r=await rpc('pc_submit',[JSON.stringify(p)]),id=r.rows[0].value.id;assert.ok(id);checks++;
+assert.equal((await db.query('select original,results from pc_submissions where id=$1',[id])).rows[0].original.answers.q10,'q10-a');checks++;
+assert.equal((await db.query('select count(*)::int n from pc_text')).rows[0].n,0);checks++;
+assert.equal((await rpc('pc_submit',[JSON.stringify(p)])).rows[0].value.id,id);checks++;
+assert.equal((await db.query('select count(*)::int n from pc_submissions')).rows[0].n,1);checks++;
+for(const role of ['anon','authenticated']){await db.exec('set role '+role);await assert.rejects(()=>db.query('select * from public.pc_submissions'));await assert.rejects(()=>rpc('pc_submit',[JSON.stringify(p)]));await assert.rejects(()=>db.query('select * from public.pc_text'));await assert.rejects(()=>db.query('select * from public.pc_reports'));await db.exec('reset role');checks+=4}
+assert.equal((await rpc('pc_manage',[id,'a'.repeat(64),'rating',5])).rows[0].value,false);checks++;
+assert.equal((await rpc('pc_manage',[id,p.tokenHash,'rating',5])).rows[0].value,true);checks++;
+assert.equal((await db.query('select rating from pc_submissions where id=$1',[id])).rows[0].rating,5);checks++;
+let textFixture=fixture();textFixture.token=Buffer.alloc(32,22).toString('base64url');textFixture.consent.text=true;textFixture.text={originalExpression:'=private <script>',finalExpression:'Family'};const pt=normalize(textFixture);const tid=(await rpc('pc_submit',[JSON.stringify(pt)])).rows[0].value.id;assert.equal((await db.query('select original_expression from pc_text where submission_id=$1',[tid])).rows[0].original_expression,textFixture.text.originalExpression);checks++;
+await db.query("insert into pc_reports(cohort_key,event,year,mode,version,data,published,expires_on) select 'frozen',event,extract(year from participation_date),mode,version,'{\"participants\":5}',true,expires_on from pc_submissions where id=$1",[tid]);
+assert.equal((await rpc('pc_manage',[tid,pt.tokenHash,'withdraw',null])).rows[0].value,true);checks++;
+assert.equal((await db.query('select count(*)::int n from pc_text where submission_id=$1',[tid])).rows[0].n,0);checks++;
+assert.equal((await db.query("select published,data from pc_reports where cohort_key='frozen'")).rows[0].published,false);checks++;
+assert.deepEqual((await db.query("select data from pc_reports where cohort_key='frozen'")).rows[0].data,{});checks++;
+const before=String((await db.query('select expires_on from pc_submissions where id=$1',[id])).rows[0].expires_on);await rpc('pc_manage',[id,p.tokenHash,'rating',3]);assert.equal(String((await db.query('select expires_on from pc_submissions where id=$1',[id])).rows[0].expires_on),before);checks++;
+await assert.rejects(()=>db.query("update pc_submissions set original='{}' where id=$1",[id]));checks++;
+await assert.rejects(()=>db.query("update pc_submissions set expires_on='2032-01-01' where id=$1",[id]));checks++;
+await db.query("insert into pc_submissions(participation_date,expires_on,mode,version,consent,original,latest,results,final,customization,synthetic,token_hash) select '2019-01-01','2024-01-01',mode,version,consent,original,latest,results,final,customization,synthetic,$2 from pc_submissions where id=$1",[id,'f'.repeat(64)]);await rpc('pc_retention',[]);assert.equal((await db.query("select count(*)::int n from pc_submissions where token_hash=$1",['f'.repeat(64)])).rows[0].n,0);checks++;
+const cron=await readFile(new URL('../supabase/migrations/202611110002_retention_cron.sql',import.meta.url),'utf8');assert.ok(cron.includes("'17 3 * * *'"));assert.ok(cron.includes('public.pc_retention()'));checks++;
+await db.close();console.log(JSON.stringify({postgresqlTests:'PASS',checks,note:'Real PostgreSQL via PGlite with synthetic Supabase roles; hosted Auth and pg_cron scheduling require isolated Supabase verification.'}));
