@@ -69,3 +69,18 @@ The dashboard now labels synthetic mode explicitly. Expired submissions are excl
 ## TOTP and recovery hardening — 12 November 2026
 
 Owner completed hosted TOTP enrollment and accessed Research Administrator reports. Added MFA API/adapter enforcement tests, PostgreSQL session/factor revocation tests and encrypted recovery drill. Added hosted-recovery.sql, which verifies journal capture, old-row restoration, later deletion replay, text cascade, report invalidation, expiry and browser privilege denial in a rollback-only transaction in PeaceCream-Test. All 24 review fixtures remain; zero real responses. Private offsite backup scheduling, complete cross-project Auth/audit restoration and operational recovery remain pending, not inferred from the local drill.
+
+### Final preview audit evidence
+
+- All seven automated suites and the static build passed: 66,154 quiz checks, 560 flavor/topping configurations, 1,200 triple plans, 49 response-security checks, 26 database checks, 24 API/PostgreSQL checks, 33 MFA checks, 27 encrypted recovery checks and 9 session-state checks.
+- Owner's hosted account has one verified TOTP factor and an AAL2 session; Research Administrator report access survived a preview redeployment/reload.
+- Actual participant preview checked at 320, 390, 768 and 1280 pixels: no horizontal overflow, flavor caption outside the image. All consent choices default unchecked. Missing adult attestation or synthetic confirmation disables sharing; optional text consent is not required. No response was sent by these UI checks.
+- Actual Studio checked at 320, 390, 768 and 1280 pixels: no horizontal page overflow; role and totals 24/12/12 verified after MFA. Mobile forms use 16px text and single-column narrow layouts. No console errors were observed after the final reload.
+- Privacy page displays consent version peacecream-consent-5y-2, a 35-day minimal deletion-journal explanation, backup limitations and the pending international review.
+- pg_cron readiness smoke job 3 succeeded at 2026-11-12 17:43 UTC and unscheduled itself. Daily 03:17 UTC retention remains active. There has not yet been a scheduled daily run since installation; this is a scheduler smoke test, not future availability evidence.
+- Hosted rollback-only recovery/expiry drill passes after final migrations; 24 synthetic responses, two published synthetic reports, zero real responses and no residual drill journal rows remain.
+- Added restrictive script/connect/frame/object CSP, anti-framing and device-permission headers. Existing inline styles remain permitted to preserve the renderer. Browser direct database/RPC access remains denied.
+- Security advisor has one remaining warning: leaked-password protection disabled (paid-plan feature). No paid change made.
+- Main is unchanged at c3ec41df78a08a5af57f6119690e51e41ce00b17. All changes remain in the unmerged feature branch.
+
+This was a focused engineering audit, not an independent penetration test or international legal sign-off. Remaining blockers: off-site backup destination/schedule, independent withdrawal-journal gap reconciliation, full infrastructure/Auth/audit restoration, account-recovery rehearsal, signup/redirect configuration confirmation, alerting/operator coverage, raw-export tracking, controller/country-specific privacy approval and translations. Free pausing and provider logs/Google Fonts processing remain operational/privacy review items.
