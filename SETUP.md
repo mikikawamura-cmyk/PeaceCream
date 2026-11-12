@@ -4,9 +4,9 @@ Status: implementation for synthetic testing. Do not merge this branch or enable
 
 ## Current isolated test project
 
-`PeaceCream-Test` (`hyejrwwducnhpzscmofg`) is active in `us-west-1` (North California). All three migrations below have been applied there. RLS and automatic-RLS creation remain enabled; automatic public table exposure remains disabled. Explicit grants permit only server `service_role` access to participant tables/RPCs. The role-lookup helper is in the non-exposed `private` schema. No participant records are retained after transaction-rolled-back synthetic tests. The security advisor reports no findings after hardening.
+`PeaceCream-Test` (`hyejrwwducnhpzscmofg`) is active in `us-west-1` (North California). All three migrations below have been applied there. RLS and automatic-RLS creation remain enabled; automatic public table exposure remains disabled. Explicit grants permit only server `service_role` access to participant tables/RPCs. The role-lookup helper is in the non-exposed `private` schema. No participant records are retained after transaction-rolled-back synthetic tests. Database access hardening passed its advisor review. After Auth account setup, the advisor reports one remaining Auth warning: leaked-password protection is disabled (a Pro-plan-or-above feature). No plan upgrade has been made.
 
-Vercel Preview credentials and the real organizer Auth account are still pending owner configuration. Production is unchanged.
+Vercel Preview credentials are configured for feature/anonymous-responses only, with PC_COLLECTION_MODE=synthetic and no real-collection approval. The owner created and signed in as peacebymiki@gmail.com; its active research_admin role is assigned. Hosted API submission, rating, withdrawal, authenticated text access, audited raw export, analyst denial and immediate access revocation were verified. The owner role was restored afterward. Production is unchanged.
 
 ## 1. Create the isolated database
 
