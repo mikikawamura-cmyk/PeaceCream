@@ -1,0 +1,14 @@
+PeaceCream editorial gelato assets — generated with the built-in imagegen tool, 2026-11-11.
+
+Base atlas: flavors-editorial-v2.png
+Art direction: A precise five-column, two-row sheet of ten separate studio food photographs. Top row Strawberry, Pistachio, Lemon, Orange, Blueberry; bottom row Matcha, Mango, Coconut, Chocolate, Vanilla. One generous, dimensional handmade gelato scoop per frame, in the existing ivory paper cup with narrow burgundy stripes. Warm pastel backdrop coordinated with each flavor; soft directional studio light, creamy spatula folds, tiny ice crystals and natural imperfections. The cup, scale and framing stay consistent; no text, labels, borders, floating ingredients or collage elements.
+
+Single-topping photo atlases: topping-photo-0.png through topping-photo-9.png, all following the same ten-flavor grid and cup composition. Each edit naturally incorporates one ingredient into every scoop. 0: glossy colorful jelly beans; 1: small irregular chocolate shards and shavings; 2: many delicate yellow star sprinkles; 3: small chocolate buttons; 4: short pink-and-cream twisted candy pieces; 5: broken wafer roll segments and crumbs; 6: little rainbow sour candy pieces; 7: miniature ivory and pink marshmallows; 8: broken salted pretzel loops and pieces; 9: fresh small mint leaves. The ingredient is generously but carefully scattered across visible ice cream, following ridges and depressions, with some pieces partly embedded. Preserve realistic edible scale, upper-left light, contact shadows, material textures, cup and backgrounds.
+
+Dedicated pair atlas: flavors-hope-dignity-v1.png
+The same ten-flavor grid, with small chocolate shards and tiny yellow stars naturally combined across each scoop. Both ingredients remain distinct, distributed together and photographed as part of the dessert.
+
+Strawberry pair hero: strawberry-hope-dignity-v1.png
+Single square editorial product photo of the striped PeaceCream cup and a lush strawberry scoop with scattered chocolate shards and delicate yellow stars. Soft pastel pink studio backdrop; creamy sculpted texture; product-photo scale and lighting. No labels outside the cup.
+
+The older assets remain in the repository for reference and as the offline cutout-rendering fallback. These generated images are concept visuals and may have minor differences between atlas cells; the renderer limits pair blending to the scoop region.

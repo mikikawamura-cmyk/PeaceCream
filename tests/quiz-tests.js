@@ -1,0 +1,12 @@
+(function(root){
+const C=root.PeaceQuizContent,E=root.PeaceQuizEngine;let checks=0;function assert(x,m){checks++;if(!x)throw Error(m)}
+const expected=[['strawberry','matcha','lemon','orange'],['strawberry','matcha','lemon','orange'],['strawberry','matcha','lemon','orange'],['words','courage','dialogue','care'],['words','courage','dialogue','youth'],['words','courage','youth','care'],['youth','care','dialogue','words'],['dialogue','courage','care','youth'],['courage','dialogue','care','words'],['dialogue','youth','words','care']];
+expected.forEach((ids,i)=>assert(JSON.stringify(C.questions[i].choices.map(c=>c[1]))===JSON.stringify(ids),'Mapping '+i));
+assert(JSON.stringify(E.opportunities)===JSON.stringify({words:6,courage:5,dialogue:6,care:6,youth:5}),'Opportunity counts');
+const base={q1:0,q2:0,q3:0,q4:0,q5:0,q6:0,q7:0,q8:0,q9:0,q10:0,q11:['justice','dignity'],q12:'  Family & 音楽 <3  '};
+for(let x=0;x<64;x++){const a={...base,q1:x%4,q2:Math.floor(x/4)%4,q3:Math.floor(x/16)%4};const r=E.score(a);assert(r.flavorScores[r.flavor.id]===Math.max(...Object.values(r.flavorScores)),'Flavor winner');assert(r.expression===a.q12,'Original expression');if(r.tied.length>1)assert(r.flavor.id===expected[0][a.q1],'Earliest-answer flavor tie')}
+for(let x=0;x<16384;x++){const a={...base};let n=x;for(let i=4;i<=10;i++){a['q'+i]=n%4;n=Math.floor(n/4)}const r=E.score(a);assert(r.ranked.every(l=>l.score===l.count/l.opportunities),'Normalization');assert(r.ranked[0].score>=r.ranked[1].score,'Lens order');assert(!a.q11.includes(r.suggested),'Distinct suggestion');assert(r.evidence.every(e=>C.questions.find(q=>q.id===e.question).choices[a[e.question]][1]===e.lens),'Grounded evidence')}
+for(const lens of Object.keys(C.lenses))for(let i=0;i<10;i++)for(let j=i+1;j<10;j++){const a={...base,q11:[C.values[i].id,C.values[j].id]};for(const q of C.questions.slice(3,10)){const at=q.choices.findIndex(c=>c[1]===lens);a[q.id]=at<0?0:at}const r=E.score(a);assert(!a.q11.includes(r.suggested),'Fallback distinct');assert(E.recommendActions(r).length===30,'Thirty actions')}
+assert(E.score({...base,q1:0,q2:1,q3:2}).flavor.id==='strawberry','Tie stable');assert(!E.valid({...base,q11:['justice','justice']}),'Reject duplicate values');assert(!E.valid({...base,q12:'  '}),'Require expression');assert(!E.valid({...base,q4:4}),'Reject invalid answer');assert(E.actions.every(a=>C.values.some(v=>v.id===a.value)&&C.lenses[a.lens]),'Action tags');
+root.PeaceQuizTestReport={result:'PASS',checks,lensPatterns:16384,flavorPatterns:64,actions:E.actions.length};
+})(globalThis);
