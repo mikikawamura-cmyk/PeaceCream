@@ -7,3 +7,8 @@ dist/
 .DS_Store
 
 supabase/.temp/
+
+# Recovery archives and key material must never enter Git.
+*.pcenc
+*.backup-key
+recovery-private/

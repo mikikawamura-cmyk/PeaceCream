@@ -89,3 +89,8 @@ Run `npm ci`, `npm test`, `npm run build`. The tests include the existing quiz/i
 On the actual Vercel preview, verify both activities, all questions, immutable original/final distinctions, no upload without consent, separate text consent, rejected under-age/no-consent payloads, single-record rating updates, valid/invalid receipt withdrawal, gallery/PNG/share/reopen, organizer role isolation, audited exports, cohort suppression and mobile layout. Inspect Supabase security advisors and confirm anonymous/authenticated direct table/RPC access is denied. Check actual hosted Auth and cron, not only local substitutes.
 
 Real collection requires a separate explicit release decision after review. Only then would an authorized operator set `PC_COLLECTION_MODE=enabled` plus `PC_REAL_COLLECTION_APPROVAL=reviewed-18plus-five-years` in the approved deployment. Those variables are technical gates, not evidence of legal approval. Production changes require the owner's approval and a reviewed PR; this feature branch must not be merged automatically.
+
+
+## Production-readiness follow-up
+
+See PRODUCTION-CHECKLIST.md and RECOVERY-RUNBOOK.md. Apply all migrations in filename order, including organizer_mfa, recovery_journal and deny_journal_browser_access. Existing Test users must enroll/verify TOTP before any reports/exports. Sessions are not refreshed indefinitely; sign in again after expiry. Lost-factor reset is owner-operated after identity verification and session revocation; never disable backend MFA checks as a recovery shortcut. The new consent draft version is peacecream-consent-5y-2. No independent backup destination or schedule is configured. Preview remains synthetic and production is unchanged.

@@ -1,5 +1,9 @@
 # PeaceCream launch review — 12 November 2026
 
+## Progress update — 12 November 2026
+
+Organizer TOTP is now implemented and enforced for every Studio data route, and the owner completed Test enrollment. Authenticated AAL2 access was observed. Fresh role and session checks reject revoked/expired sessions; logout requests provider-local signout. The encrypted application snapshot tool, minimal 35-day deletion journal and idempotent recovery replay are implemented. Local encrypted restoration and hosted rollback drills pass. A $0 manual operating proposal and explicit owner actions are in RECOVERY-RUNBOOK.md and PRODUCTION-CHECKLIST.md. No off-site destination, independent-copy schedule or full infrastructure restoration is established yet. The manual withdrawal-journal gap remains an approval blocker. Those documents supersede older pending-authentication statements below.
+
 ## Decision today
 
 Ready for a private synthetic review, not yet approved for real international response collection. Production is unchanged. The feature preview remains in synthetic mode, with no real-collection approval variable. No subscription changes, production credentials, new production database or launch authorization have been made.
@@ -33,9 +37,9 @@ Check the hosting plan's usage eligibility too. Vercel describes Hobby as person
 
 ## Authentication review
 
-Current Studio access is password-based with a Secure, HttpOnly, SameSite=Strict cookie lasting at most an hour. The backend checks an active database role on every protected request; deactivation was verified to block an existing session. This does not mean every possible stolen-token/session scenario has been audited. App logout clears the cookie; full provider-session revocation and administrator MFA are additional hardening items.
+Current Studio access requires password plus verified TOTP with a Secure, HttpOnly, SameSite=Strict cookie lasting at most an hour. The backend checks an active database role on every protected request; deactivation was verified to block an existing session. This does not mean every possible stolen-token/session scenario has been audited. App logout clears the cookie; provider-local logout revokes the session and the backend checks session existence. Owner-led lost-factor recovery and full disaster recovery still need operational rehearsal.
 
-Before identifiable free-text research, implement and enforce TOTP MFA for Studio Research Administrators. Supabase's TOTP API is available without a paid plan, but the Studio currently has no MFA enrollment/challenge or AAL2 enforcement. Enabling MFA on the Supabase platform account protects the platform account, not automatically the separate Studio login. Use MFA on Supabase, GitHub and Vercel owner accounts as well. [Supabase TOTP documentation](https://supabase.com/docs/guides/auth/auth-mfa/totp).
+TOTP MFA is implemented and enforced for all Studio organizers, including Research Administrators. Supabase's TOTP API is available without a paid plan, and the Studio now implements enrollment/challenge and AAL2 enforcement. Owner Test enrollment is verified. Enabling MFA on the Supabase platform account protects the platform account, not automatically the separate Studio login. Use MFA on Supabase, GitHub and Vercel owner accounts as well. [Supabase TOTP documentation](https://supabase.com/docs/guides/auth/auth-mfa/totp).
 
 Disable public Auth sign-ups if only invited organizers are intended; confirm email/password recovery and authorized redirect URLs. Public sign-up settings have not been independently verified. Unapproved Auth users receive no organizer role, so signup alone cannot read participant data. Use unique generated passwords, individual organizer accounts and prompt revocation. Test recovery without placing passwords, keys or codes in chat or logs.
 
@@ -56,7 +60,7 @@ Small nonzero counts and complementary cells are suppressed. The demonstration d
 Live-table withdrawal and expiry deletion work. It would be inaccurate to call the whole data lifecycle fully operational yet:
 
 1. No encrypted off-site backup schedule, retention schedule or restore drill has been established in this work.
-2. There is no durable deletion-replay ledger/queue or tested equivalent operational procedure to prevent a restored old backup from resurrecting withdrawn records.
+2. A database-local minimal deletion journal and tested replay now exist. An independent durable copy and gap-reconciliation process are still required to protect against losing the database itself.
 3. Downloaded raw/text CSVs are not remotely erased by the withdrawal endpoint. Export audit entries exist, but a file inventory, deletion notifications and recipient deletion process are not implemented.
 4. Cron failure alerting and an assigned operations owner are not configured here. Pausing/outages can prevent timely physical cleanup.
 
@@ -79,7 +83,7 @@ Vercel/Supabase technical logs and Google Fonts requests are outside the partici
 - [ ] 1. Owner names the pilot controller/institutions, countries, adult audience, event size and operations contact.
 - [ ] 2. Privacy/ethics reviewer approves purposes, lawful basis, rights, transfers, five-year rationale and separate text consent.
 - [ ] 3. Owner reviews the live consent and both synthetic dashboard modes; approves final notice text and translations.
-- [ ] 4. Engineering adds/enforces Studio TOTP MFA and verifies session revocation/recovery; owner secures platform accounts and confirms invitation-only Auth configuration.
+- [ ] 4. Engineering adds/enforces Studio TOTP MFA (implemented) and verifies session revocation/recovery; owner secures platform accounts and confirms invitation-only Auth configuration.
 - [ ] 5. Owner chooses Free with documented operational duties or approves a paid plan; checks hosting-use terms. No upgrade is automatic.
 - [ ] 6. Operations establishes encrypted backups, bounded backup/export retention, deletion replay, restoration testing and cron/health alerts.
 - [ ] 7. Owner approves a separate clean production database and region; preserve PeaceCream-Test and keep Preview synthetic-only. Do not copy review fixtures.
