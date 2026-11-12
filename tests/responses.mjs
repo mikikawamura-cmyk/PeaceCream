@@ -26,6 +26,9 @@ assert.equal((await invoke('texts',undefined,{headers:{cookie:'pc_organizer=vali
 assert.equal((await invoke('export',{kind:'raw',reason:'Research question for this synthetic test',confirmSensitive:true,filters:{}},{headers:{cookie:'pc_organizer=valid'}})).statusCode,403);checks++;
 assert.equal((await invoke('rating',{id:'11111111-1111-4111-8111-111111111111',token:fixture().token,rating:4})).statusCode,200);checks++;
 assert.equal((await invoke('submit',{a:'x'.repeat(17000)})).statusCode,413);checks++;
+for(const capture of ['route','...route']){assert.equal((await invoke('reports?'+encodeURIComponent(capture)+'=reports',undefined,{headers:{cookie:'pc_organizer=valid'}})).statusCode,200);checks++;assert.equal((await invoke('texts?'+encodeURIComponent(capture)+'=texts',undefined,{headers:{cookie:'pc_organizer=valid'}})).statusCode,403);checks++;assert.equal((await invoke('reports?'+encodeURIComponent(capture)+'=wrong',undefined,{headers:{cookie:'pc_organizer=valid'}})).statusCode,400);checks++;}
+assert.equal((await invoke('reports?route=reports&route=reports',undefined,{headers:{cookie:'pc_organizer=valid'}})).statusCode,400);checks++;
+assert.equal((await invoke('reports?route=reports&unapproved=value',undefined,{headers:{cookie:'pc_organizer=valid'}})).statusCode,400);checks++;
 // The browser's card decoder and storage logic are tested without any API or DOM access.
 const storage=new Map(),sandbox={crypto:globalThis.crypto,TextEncoder,TextDecoder,atob,btoa,URL,URLSearchParams,localStorage:{getItem:k=>storage.get(k)||null,setItem:(k,v)=>storage.set(k,v)},toast:()=>{}};vm.createContext(sandbox);vm.runInContext(await readFile(new URL('../collection.js',import.meta.url),'utf8'),sandbox);const P=sandbox.PeaceCreamData;
 const card={v:1,flavor:0,toppings:[1,2],peace:'Music & 音楽 <3',why:'My own words'};
