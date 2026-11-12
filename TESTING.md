@@ -1,8 +1,8 @@
 # PeaceCream preview review — 12 November 2026
 
-Feature branch: `feature/anonymous-responses`  
-Draft PR: https://github.com/mikikawamura-cmyk/PeaceCream/pull/1  
-Review preview: https://peacecream-git-feature-anonymous-responses-peace-7909.vercel.app/  
+Feature branch: `feature/anonymous-responses`
+Draft PR: https://github.com/mikikawamura-cmyk/PeaceCream/pull/1
+Review preview: https://peacecream-git-feature-anonymous-responses-peace-7909.vercel.app/
 Verified implementation deployment: https://peacecream-jc4e77j7q-peace-7909.vercel.app/ (commit `ebe162a`)
 
 ## Completed
@@ -23,18 +23,26 @@ Actual deployed preview verification: homepage; Create flavor/two-topping select
 
 Responsive checks: deployed gallery visually inspected at 375px; deployed result visually inspected at 390px and 820px, with desktop at 1280px. DOM checks show no horizontal overflow and the figure caption starts at or below the image bottom at 390, 820 and 1280px. Local dashboard DOM widths fit 375px and 390px. Desktop organizer studio was visually reviewed. Mobile dashboard screenshot capture appears scaled in this browser backend, so its final visual review remains advisable on a physical device.
 
+## Hosted test database update — 12 November 2026
+
+The owner created `PeaceCream-Test` (`hyejrwwducnhpzscmofg`) in `us-west-1`. Its public/private schemas were empty before migration. The two initial migrations and the advisor-hardening migration are now applied. All six application tables have RLS enabled. Explicit server-only grants work with automatic public table exposure disabled. The role helper was moved to the non-exposed private schema, automatic-RLS event-trigger API execution was revoked without disabling the event trigger, audit/limit browser-deny policies were added, the organizer policy uses an initplan, and the audit foreign key has an index. Security advisor: no findings. Performance advisor: only informational unused indexes, expected for an empty test database; these indexes support cohort queries and organizer foreign-key operations and are retained.
+
+The real hosted PostgreSQL database passed the synthetic transaction test in `tests/hosted-synthetic.sql`: original answer preservation, duplicate retry, no unconsented text, separately consented exact text, valid/invalid receipt rating, original immutability, unchanged retention, withdrawal and text cascade, report invalidation, expiry cleanup, and denied anonymous/authenticated direct reads/RPC calls. All fixtures were rolled back; zero submissions remain.
+
+The daily retention job is active at `17 3 * * *` (03:17 UTC). An actual temporary cron smoke job executed the retention function successfully at 2026-11-12 08:23 UTC and unscheduled itself. This verifies the hosted scheduler, in addition to the expiry/deletion tests. The daily job remains active.
+
 ## Still pending — do not treat as passed
 
-The Supabase connector currently lists no projects. The owner elected to create the isolated US West test project themselves. No cloud database has been migrated or seeded, no real organizer account has been provisioned, and no credentials have been supplied in chat.
+The real organizer Auth account has not yet been provisioned. Preview environment variables still require the owner to configure the keys directly in secure Vercel settings. No credentials have been supplied in chat.
 
-Hosted Supabase Auth, cloud REST/RLS behavior, security advisors, cron scheduling/execution and the actual backup/deletion/restoration policy still require verification after setup. Local PostgreSQL and local synthetic organizer accounts do not prove these provider-specific controls. The Vercel preview currently cannot submit responses or authenticate real organizers because its database configuration is intentionally absent.
+Hosted Supabase Auth, end-to-end cloud REST/API behavior and the actual backup/restoration policy still require verification after the Preview credentials are configured. Local synthetic organizer accounts do not prove hosted Auth. The preview cannot yet submit responses or authenticate real organizers because its database configuration is absent. Hosted database privileges, RLS and cron have now been checked as described above.
 
 Additional browser follow-up after database setup: cloud submissions with/without text consent, token withdrawal and rating against the actual provider, real organizer role changes, CSV file downloads/audits, populated dashboard charts/filtering, gallery local-delete confirmation and answer-retake/original-vs-final persistence inspection. Backend fixtures already exercise the underlying data rules, but these complete hosted workflows are not claimed as verified.
 
 ## Manual next steps
 
-1. Owner creates an isolated Supabase test project in US West and provides only its project name/reference (not keys).
-2. Inspect the new project's tables, then apply both migrations. Confirm cron and security advisors.
+1. Completed: isolated US West test project created and identified.
+2. Completed: empty schema inspected, three migrations applied, database security and hosted cron verified.
 3. Owner enters Supabase URL, secret and publishable keys in **Vercel Preview only**, sets `PC_COLLECTION_MODE=synthetic`, leaves the real-collection approval variable unset, and redeploys.
 4. Owner provisions the invited Auth account; add its UUID to `pc_organizers` with `research_admin`. Open `/dashboard.html` on the preview.
 5. Complete the hosted synthetic verification above and approve the privacy notice, participating countries/institutions, consent, retention/backup process and security review.
@@ -44,11 +52,11 @@ See SETUP.md for exact variables, SQL, schema, withdrawal/retention operations a
 
 ## Files in this change
 
-Participant experience: `app.js`, `index.html`, `quiz-en.js`, `quiz-engine.js`, `quiz-ui.js`, `collection.js`, `collection.css`.  
-Organizer studio: `dashboard.html`, `dashboard.js`, `dashboard.css`.  
-Server and versioned scoring: `api/[...route].js`, `lib/database.cjs`, `lib/domain.cjs`, `lib/server.cjs`, `lib/reports.cjs`, `lib/content-v1.json`, `lib/engine-v1.js`.  
-Database: both SQL files in `supabase/migrations/`.  
-Build/setup: `package.json`, `package-lock.json`, `vercel.json`, `.env.example`, `scripts/build.mjs`, `SETUP.md`, `TESTING.md`.  
+Participant experience: `app.js`, `index.html`, `quiz-en.js`, `quiz-engine.js`, `quiz-ui.js`, `collection.js`, `collection.css`.
+Organizer studio: `dashboard.html`, `dashboard.js`, `dashboard.css`.
+Server and versioned scoring: `api/[...route].js`, `lib/database.cjs`, `lib/domain.cjs`, `lib/server.cjs`, `lib/reports.cjs`, `lib/content-v1.json`, `lib/engine-v1.js`.
+Database: three SQL files in `supabase/migrations/`; repeatable hosted transaction test in `tests/hosted-synthetic.sql`.
+Build/setup: `package.json`, `package-lock.json`, `vercel.json`, `.env.example`, `scripts/build.mjs`, `SETUP.md`, `TESTING.md`.
 Tests/local-only tooling: `tests/responses.mjs`, `tests/database.mjs`, `tests/integration.mjs`, `tests/response-fixtures.cjs`, `scripts/preview.mjs`, `scripts/local-database.mjs`.
 
 ## Privacy review references

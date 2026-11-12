@@ -2,16 +2,23 @@
 
 Status: implementation for synthetic testing. Do not merge this branch or enable real collection until the privacy notice, international pilot requirements, access controls, deletion job and backup procedure have been reviewed. Production at https://peacecream.vercel.app/ must remain unchanged during review.
 
+## Current isolated test project
+
+`PeaceCream-Test` (`hyejrwwducnhpzscmofg`) is active in `us-west-1` (North California). All three migrations below have been applied there. RLS and automatic-RLS creation remain enabled; automatic public table exposure remains disabled. Explicit grants permit only server `service_role` access to participant tables/RPCs. The role-lookup helper is in the non-exposed `private` schema. No participant records are retained after transaction-rolled-back synthetic tests. The security advisor reports no findings after hardening.
+
+Vercel Preview credentials and the real organizer Auth account are still pending owner configuration. Production is unchanged.
+
 ## 1. Create the isolated database
 
-The owner will create the project in Supabase. Choose US West if available, name it clearly as a test project, and choose a database password directly in Supabase. Never send passwords or API keys in chat. Confirm the project name/reference before applying migrations. Do not reuse an existing production database.
+The owner has created PeaceCream-Test. For future isolated setups, create the project in Supabase. Choose US West if available, name it clearly as a test project, and choose a database password directly in Supabase. Never send passwords or API keys in chat. Confirm the project name/reference before applying migrations. Do not reuse an existing production database.
 
-Apply the SQL files in order using the Supabase SQL Editor or migration tooling:
+For a fresh test project, apply the SQL files in order using the Supabase SQL Editor or migration tooling:
 
 1. `supabase/migrations/202611110001_responses.sql`
 2. `supabase/migrations/202611110002_retention_cron.sql`
+3. `supabase/migrations/20261112082127_harden_test_access.sql`
 
-The first migration creates the data tables, row-level security, server-only RPC functions, rate limits and immutable original-response fields. The second installs/schedules the daily retention job. Verify that the `peacecream-five-year-retention` job exists in `cron.job`, is active, and has successful executions in `cron.job_run_details`. The local PostgreSQL test exercises the deletion function; it cannot verify the hosted scheduler.
+The first migration creates the data tables, row-level security, server-only RPC functions, rate limits and immutable original-response fields. The second installs/schedules the daily retention job. The third hardens the internal role helper, provider automatic-RLS helper permissions, audit access and policy performance. Verify that the `peacecream-five-year-retention` job exists in `cron.job`, is active, and has successful executions in `cron.job_run_details`. The local PostgreSQL test exercises the deletion function. On PeaceCream-Test, a temporary hosted cron smoke job also executed the retention function successfully and unscheduled itself; the daily job remains active.
 
 ## 2. Configure Vercel Preview only
 

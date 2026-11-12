@@ -2,6 +2,7 @@ import {PGlite} from '@electric-sql/pglite';import {readFile} from 'node:fs/prom
 const assets=new URL('../node_modules/@electric-sql/pglite/dist/',import.meta.url);
 const db=new PGlite({pgliteWasmModule:await WebAssembly.compile(await readFile(new URL('pglite.wasm',assets))),initdbWasmModule:await WebAssembly.compile(await readFile(new URL('initdb.wasm',assets))),fsBundle:new Blob([await readFile(new URL('pglite.data',assets))])});let checks=0;await db.exec(`create role anon;create role authenticated;create role service_role bypassrls;create schema auth;create table auth.users(id uuid primary key);create function auth.uid() returns uuid language sql stable as $$select nullif(current_setting('request.jwt.claim.sub',true),'')::uuid$$;grant usage on schema public,auth to anon,authenticated,service_role;`);
 await db.exec(await readFile(new URL('../supabase/migrations/202611110001_responses.sql',import.meta.url),'utf8'));
+await db.exec(await readFile(new URL('../supabase/migrations/20261112082127_harden_test_access.sql',import.meta.url),'utf8'));
 const rpc=async(name,args)=>db.query(`select public.${name}(${args.map((_,i)=>'$'+(i+1)).join(',')}) as value`,args);
 const p=normalize(fixture());let r=await rpc('pc_submit',[JSON.stringify(p)]),id=r.rows[0].value.id;assert.ok(id);checks++;
 assert.equal((await db.query('select original,results from pc_submissions where id=$1',[id])).rows[0].original.answers.q10,'q10-a');checks++;
