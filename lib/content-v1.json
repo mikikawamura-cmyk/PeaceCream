@@ -1,0 +1,582 @@
+{
+  "version": "peacecream-quiz-1",
+  "flavors": [
+    {
+      "id": "strawberry",
+      "name": "Strawberry",
+      "quality": "Love",
+      "asset": 0
+    },
+    {
+      "id": "matcha",
+      "name": "Matcha",
+      "quality": "Harmony",
+      "asset": 5
+    },
+    {
+      "id": "lemon",
+      "name": "Lemon",
+      "quality": "Clarity",
+      "asset": 2
+    },
+    {
+      "id": "orange",
+      "name": "Orange",
+      "quality": "Joy",
+      "asset": 3
+    }
+  ],
+  "lenses": {
+    "words": {
+      "name": "Words",
+      "description": "using truthful, careful and humanizing language",
+      "action": "Find a respectful way to say something that matters to you."
+    },
+    "courage": {
+      "name": "Courage",
+      "description": "standing by principles and speaking up when something feels wrong",
+      "action": "Name one small change you can ask for calmly and clearly."
+    },
+    "dialogue": {
+      "name": "Dialogue",
+      "description": "listening across differences and making room for understanding",
+      "action": "Ask someone what they would like you to understand, and listen without interrupting."
+    },
+    "care": {
+      "name": "Care",
+      "description": "noticing suffering and offering kindness and practical support",
+      "action": "Ask someone how they are doing and offer one manageable way to help."
+    },
+    "youth": {
+      "name": "Youth",
+      "description": "making meaningful room for young people’s voice and leadership",
+      "action": "Invite a younger person to shape an activity, and follow their idea."
+    }
+  },
+  "questions": [
+    {
+      "id": "q1",
+      "stage": 0,
+      "text": "After a long, busy week, what would make you feel most at peace?",
+      "choices": [
+        [
+          "Spending time with someone who understands me.",
+          "strawberry"
+        ],
+        [
+          "Taking a quiet walk in nature.",
+          "matcha"
+        ],
+        [
+          "Having time to reflect and reconnect with myself.",
+          "lemon"
+        ],
+        [
+          "Laughing and being silly with friends.",
+          "orange"
+        ]
+      ]
+    },
+    {
+      "id": "q2",
+      "stage": 0,
+      "text": "Which message speaks to your heart the most?",
+      "choices": [
+        [
+          "You belong here.",
+          "strawberry"
+        ],
+        [
+          "Find balance in the world around you.",
+          "matcha"
+        ],
+        [
+          "Be honest with yourself.",
+          "lemon"
+        ],
+        [
+          "There is always something to smile about.",
+          "orange"
+        ]
+      ]
+    },
+    {
+      "id": "q3",
+      "stage": 0,
+      "text": "When you lose your sense of peace, what do you miss the most?",
+      "choices": [
+        [
+          "Feeling close to someone.",
+          "strawberry"
+        ],
+        [
+          "A sense of calm and balance.",
+          "matcha"
+        ],
+        [
+          "Knowing what I truly feel and want.",
+          "lemon"
+        ],
+        [
+          "A sense of lightness and joy.",
+          "orange"
+        ]
+      ]
+    },
+    {
+      "id": "q4",
+      "stage": 1,
+      "text": "You see people arguing online about an important issue. What would you naturally do first?",
+      "choices": [
+        [
+          "Choose words that make the situation clearer without hurting others.",
+          "words"
+        ],
+        [
+          "Point out when people apply different standards to different sides.",
+          "courage"
+        ],
+        [
+          "Try to understand why people see things differently.",
+          "dialogue"
+        ],
+        [
+          "Think about the people who may be suffering because of the situation.",
+          "care"
+        ]
+      ]
+    },
+    {
+      "id": "q5",
+      "stage": 1,
+      "text": "Your group is making an important decision, but time is running out. What matters most to you?",
+      "choices": [
+        [
+          "Making sure the final message is honest and clear.",
+          "words"
+        ],
+        [
+          "Staying true to our principles, even when it is difficult.",
+          "courage"
+        ],
+        [
+          "Making sure different opinions have been heard.",
+          "dialogue"
+        ],
+        [
+          "Young people get a real say in the final decision.",
+          "youth"
+        ]
+      ]
+    },
+    {
+      "id": "q6",
+      "stage": 1,
+      "text": "Which compliment would make you happiest?",
+      "choices": [
+        [
+          "You always find the right words.",
+          "words"
+        ],
+        [
+          "You’re the same person no matter who you’re with.",
+          "courage"
+        ],
+        [
+          "You trusted me to lead, even though I was the youngest.",
+          "youth"
+        ],
+        [
+          "You were there when I needed someone.",
+          "care"
+        ]
+      ]
+    },
+    {
+      "id": "q7",
+      "stage": 1,
+      "text": "You have a free day to contribute to a more peaceful world. What would you enjoy doing?",
+      "choices": [
+        [
+          "Help young people create and lead their own project.",
+          "youth"
+        ],
+        [
+          "Volunteer to support people going through a difficult time.",
+          "care"
+        ],
+        [
+          "Bring people from different backgrounds together to share stories.",
+          "dialogue"
+        ],
+        [
+          "Create a message or story that changes how people think about peace.",
+          "words"
+        ]
+      ]
+    },
+    {
+      "id": "q8",
+      "stage": 1,
+      "text": "What troubles you most when people are in conflict?",
+      "choices": [
+        [
+          "Nobody is really listening to the other side.",
+          "dialogue"
+        ],
+        [
+          "People avoid speaking up about what is wrong.",
+          "courage"
+        ],
+        [
+          "The people who are hurting are forgotten.",
+          "care"
+        ],
+        [
+          "Decisions are made without including those most affected.",
+          "youth"
+        ]
+      ]
+    },
+    {
+      "id": "q9",
+      "stage": 1,
+      "text": "Someone you respect says something hurtful about another group. What would you do first?",
+      "choices": [
+        [
+          "Talk to them honestly, even if it feels uncomfortable.",
+          "courage"
+        ],
+        [
+          "Ask what experiences led them to think that way.",
+          "dialogue"
+        ],
+        [
+          "Check on someone who may have been hurt by the comment.",
+          "care"
+        ],
+        [
+          "Suggest words that express the concern without demeaning people.",
+          "words"
+        ]
+      ]
+    },
+    {
+      "id": "q10",
+      "stage": 1,
+      "text": "If you had one special power to make the world more peaceful, what would you choose?",
+      "choices": [
+        [
+          "Help people who disagree truly understand one another.",
+          "dialogue"
+        ],
+        [
+          "Give young people a meaningful voice in decisions that shape their future.",
+          "youth"
+        ],
+        [
+          "Turn hurtful words into truthful and respectful ones.",
+          "words"
+        ],
+        [
+          "Be there for anyone who needs care and support.",
+          "care"
+        ]
+      ]
+    },
+    {
+      "id": "q11",
+      "stage": 2,
+      "text": "Imagine a more peaceful world. Which two things matter most to you?"
+    },
+    {
+      "id": "q12",
+      "stage": 3,
+      "text": "Peace × ____ — What would you love to bring peace into?"
+    }
+  ],
+  "values": [
+    {
+      "id": "justice",
+      "name": "Justice",
+      "topping": "Jelly Beans",
+      "description": "Rules and outcomes are fair to everyone.",
+      "asset": 0
+    },
+    {
+      "id": "dignity",
+      "name": "Dignity",
+      "topping": "Chocolate Squares",
+      "description": "No one is humiliated or treated as less than human.",
+      "asset": 1
+    },
+    {
+      "id": "hope",
+      "name": "Hope",
+      "topping": "Star Sprinkles",
+      "description": "People can believe in a better tomorrow.",
+      "asset": 2
+    },
+    {
+      "id": "human_rights",
+      "name": "Human Rights",
+      "topping": "Chocolate Buttons",
+      "description": "Everyone has safety, food, education, and a voice.",
+      "asset": 3
+    },
+    {
+      "id": "reconciliation",
+      "name": "Reconciliation",
+      "topping": "Twisted Candy",
+      "description": "Broken relationships can begin to heal.",
+      "asset": 4
+    },
+    {
+      "id": "solidarity",
+      "name": "Solidarity",
+      "topping": "Wafer Sticks",
+      "description": "No one has to face hardship alone.",
+      "asset": 5
+    },
+    {
+      "id": "freedom",
+      "name": "Freedom",
+      "topping": "Rainbow Candy",
+      "description": "Everyone is free to be themselves.",
+      "asset": 6
+    },
+    {
+      "id": "compassion",
+      "name": "Compassion",
+      "topping": "Marshmallows",
+      "description": "People respond to suffering with kindness.",
+      "asset": 7
+    },
+    {
+      "id": "dialogue",
+      "name": "Dialogue",
+      "topping": "Pretzels",
+      "description": "People listen even when they disagree.",
+      "asset": 8
+    },
+    {
+      "id": "sustainability",
+      "name": "Sustainability",
+      "topping": "Green Leaves",
+      "description": "We care for the Earth and future generations.",
+      "asset": 9
+    }
+  ],
+  "actions": [
+    {
+      "id": "justice-0",
+      "value": "justice",
+      "lens": "courage",
+      "context": "community",
+      "text": "Ask your group whether a small shared task is divided fairly."
+    },
+    {
+      "id": "justice-1",
+      "value": "justice",
+      "lens": "courage",
+      "context": "community",
+      "text": "Make room for someone who has not had a turn in a shared activity."
+    },
+    {
+      "id": "justice-2",
+      "value": "justice",
+      "lens": "courage",
+      "context": "community",
+      "text": "Ask what would make one everyday rule feel fairer to everyone involved."
+    },
+    {
+      "id": "dignity-0",
+      "value": "dignity",
+      "lens": "words",
+      "context": "community",
+      "text": "Thank someone for a contribution that is often overlooked."
+    },
+    {
+      "id": "dignity-1",
+      "value": "dignity",
+      "lens": "words",
+      "context": "community",
+      "text": "Rewrite a frustrated message so it describes the problem without belittling anyone."
+    },
+    {
+      "id": "dignity-2",
+      "value": "dignity",
+      "lens": "words",
+      "context": "community",
+      "text": "Use someone’s preferred name and invite others to do the same."
+    },
+    {
+      "id": "hope-0",
+      "value": "hope",
+      "lens": "youth",
+      "context": "creative",
+      "text": "Share one small thing you are looking forward to with a friend."
+    },
+    {
+      "id": "hope-1",
+      "value": "hope",
+      "lens": "youth",
+      "context": "creative",
+      "text": "Invite a younger person to imagine a small improvement and help them try it."
+    },
+    {
+      "id": "hope-2",
+      "value": "hope",
+      "lens": "youth",
+      "context": "creative",
+      "text": "Make a tiny drawing or note about a future you would like to help create."
+    },
+    {
+      "id": "human_rights-0",
+      "value": "human_rights",
+      "lens": "courage",
+      "context": "education",
+      "text": "Ask whether everyone can access the information needed for a shared activity."
+    },
+    {
+      "id": "human_rights-1",
+      "value": "human_rights",
+      "lens": "courage",
+      "context": "education",
+      "text": "Learn about one community resource and share it with someone who asks for help."
+    },
+    {
+      "id": "human_rights-2",
+      "value": "human_rights",
+      "lens": "courage",
+      "context": "education",
+      "text": "Invite someone whose needs are often overlooked to suggest a practical improvement."
+    },
+    {
+      "id": "reconciliation-0",
+      "value": "reconciliation",
+      "lens": "dialogue",
+      "context": "relationships",
+      "text": "Ask someone you disagree with what they wish you understood."
+    },
+    {
+      "id": "reconciliation-1",
+      "value": "reconciliation",
+      "lens": "dialogue",
+      "context": "relationships",
+      "text": "If it feels comfortable, send a gentle invitation to reconnect without demanding a reply."
+    },
+    {
+      "id": "reconciliation-2",
+      "value": "reconciliation",
+      "lens": "dialogue",
+      "context": "relationships",
+      "text": "In a small disagreement, name one thing you both care about."
+    },
+    {
+      "id": "solidarity-0",
+      "value": "solidarity",
+      "lens": "care",
+      "context": "relationships",
+      "text": "Offer a specific, manageable bit of help to someone with a busy day."
+    },
+    {
+      "id": "solidarity-1",
+      "value": "solidarity",
+      "lens": "care",
+      "context": "relationships",
+      "text": "Check in with someone who has been quiet and let them choose whether to talk."
+    },
+    {
+      "id": "solidarity-2",
+      "value": "solidarity",
+      "lens": "care",
+      "context": "relationships",
+      "text": "Thank someone who supports your group behind the scenes."
+    },
+    {
+      "id": "freedom-0",
+      "value": "freedom",
+      "lens": "youth",
+      "context": "creative",
+      "text": "Invite everyone in a shared activity to choose how they contribute."
+    },
+    {
+      "id": "freedom-1",
+      "value": "freedom",
+      "lens": "youth",
+      "context": "creative",
+      "text": "Ask a younger person which part of a small project they would like to lead."
+    },
+    {
+      "id": "freedom-2",
+      "value": "freedom",
+      "lens": "youth",
+      "context": "creative",
+      "text": "Make space for a friend to share a song, story or idea they love."
+    },
+    {
+      "id": "compassion-0",
+      "value": "compassion",
+      "lens": "care",
+      "context": "relationships",
+      "text": "Ask someone how their day is going and listen without rushing to fix it."
+    },
+    {
+      "id": "compassion-1",
+      "value": "compassion",
+      "lens": "care",
+      "context": "relationships",
+      "text": "Offer to sit with someone who would welcome company."
+    },
+    {
+      "id": "compassion-2",
+      "value": "compassion",
+      "lens": "care",
+      "context": "relationships",
+      "text": "Ask what kind of support would be useful before offering advice."
+    },
+    {
+      "id": "dialogue-0",
+      "value": "dialogue",
+      "lens": "dialogue",
+      "context": "relationships",
+      "text": "Ask an open question and let the other person finish before responding."
+    },
+    {
+      "id": "dialogue-1",
+      "value": "dialogue",
+      "lens": "dialogue",
+      "context": "relationships",
+      "text": "Repeat what you heard and ask whether you understood it correctly."
+    },
+    {
+      "id": "dialogue-2",
+      "value": "dialogue",
+      "lens": "dialogue",
+      "context": "relationships",
+      "text": "Invite a friend to share a different perspective on something you both enjoy."
+    },
+    {
+      "id": "sustainability-0",
+      "value": "sustainability",
+      "lens": "words",
+      "context": "nature",
+      "text": "Take a short walk and pick up a few pieces of litter where it is safe to do so."
+    },
+    {
+      "id": "sustainability-1",
+      "value": "sustainability",
+      "lens": "words",
+      "context": "nature",
+      "text": "Choose one reusable item for an activity you enjoy."
+    },
+    {
+      "id": "sustainability-2",
+      "value": "sustainability",
+      "lens": "words",
+      "context": "nature",
+      "text": "Ask your group for one small way to reduce waste at your next gathering."
+    }
+  ]
+}

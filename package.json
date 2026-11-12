@@ -4,8 +4,10 @@
   "private": true,
   "description": "PeaceCream — Create and Discover your own recipe for peace",
   "scripts": {
-    "test": "node scripts/test.mjs",
-    "build": "node scripts/build.mjs"
+    "test": "node scripts/test.mjs && node tests/responses.mjs && node tests/database.mjs && node tests/integration.mjs && node tests/mfa.mjs && node tests/recovery.mjs && node tests/session-state.mjs",
+    "build": "node scripts/build.mjs",
+    "preview": "node scripts/preview.mjs"
   },
-  "engines": { "node": ">=22" }
+  "engines": { "node": ">=22" },
+  "devDependencies": {"@electric-sql/pglite":"0.5.16"}
 }
