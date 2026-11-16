@@ -1,2 +1,2 @@
-const {createHandler}=require('../lib/server.cjs');
-module.exports=createHandler();
+const {createParticipantHandler}=require('../lib/server-backup-entry.cjs');
+module.exports=createParticipantHandler();

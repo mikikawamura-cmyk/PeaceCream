@@ -1,4 +1,4 @@
-// Integration factory only. Intentionally not mounted under api/ and not deployed.
+// Synthetic worker; mounted only behind the fail-closed Vercel preview guard.
 import {createRequire} from 'node:module';
 import {service,httpHandler} from './core.mjs';
 import {syntheticSourceAdapter} from './adapters.mjs';
