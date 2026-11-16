@@ -1,0 +1,16 @@
+import assert from 'node:assert/strict';
+import {companionTransport} from '../transport.mjs';
+let checks=0;const check=async fn=>{await fn();checks++};
+const url='https://script.google.com/macros/s/SYNTHETIC_DEPLOYMENT_ID/exec',wire={payload:'SYNTHETIC_SIGNED_PAYLOAD',mac:'synthetic'},reply={payload:'signed-reply',mac:'synthetic'};
+const response=(status,data={},location)=>({status,headers:{get:k=>k==='location'?location:null},text:async()=>JSON.stringify(data)});
+await check(async()=>{let calls=0;await assert.rejects(()=>companionTransport({url,fetcher:async()=>{calls++}})(wire),/DISABLED/);assert.equal(calls,0)});
+for(const bad of ['http://script.google.com/macros/s/SYNTHETIC_DEPLOYMENT_ID/exec','https://example.test/exec',url+'?token=secret','https://script.google.com.evil.test/macros/s/SYNTHETIC_DEPLOYMENT_ID/exec'])await check(async()=>assert.rejects(()=>companionTransport({url:bad,enabled:true,fetcher:async()=>{throw Error('NO')}})(wire),/DISABLED/));
+await check(async()=>{const calls=[];const t=companionTransport({url,enabled:true,fetcher:async(u,o)=>{calls.push({u,o});return calls.length===1?response(302,{},'https://script.googleusercontent.com/macros/echo?user_content_key=SYNTHETIC'):response(200,reply)}});assert.deepEqual(await t(wire),reply);assert.equal(calls[0].o.redirect,'manual');assert.equal(calls[1].o.method,'GET');assert.equal(calls[1].o.body,undefined);assert.deepEqual(calls[1].o.headers,{})});
+for(const to of ['https://accounts.google.com/login','https://example.test','http://script.googleusercontent.com/macros/echo','https://script.googleusercontent.com/wrong-path','https://user:pass@script.googleusercontent.com/macros/echo'])await check(async()=>{let calls=0;await assert.rejects(()=>companionTransport({url,enabled:true,fetcher:async()=>{calls++;return response(302,{},to)}})(wire),/TRANSPORT_FAILED/);assert.equal(calls,1)});
+await check(async()=>assert.rejects(()=>companionTransport({url,enabled:true,fetcher:async()=>response(403)})(wire),/TRANSPORT_FAILED/));
+await check(async()=>assert.rejects(()=>companionTransport({url,enabled:true,fetcher:async()=>({status:200,text:async()=> 'x'.repeat(4101001)})})(wire),/TRANSPORT_FAILED/));
+await check(async()=>assert.rejects(()=>companionTransport({url,enabled:true,fetcher:async()=>{throw Error('SYNTHETIC_PRIVATE_PROVIDER_DETAILS')}})(wire),e=>e.message==='COMPANION_TRANSPORT_FAILED'));
+await check(async()=>{let calls=0;await assert.rejects(()=>companionTransport({url,enabled:true,fetcher:async()=>{calls++;return response(302,{},'https://script.googleusercontent.com/macros/echo?user_content_key=SYNTHETIC')}})(wire),/TRANSPORT_FAILED/);assert.equal(calls,3)});
+await check(async()=>{let calls=0;await assert.rejects(()=>companionTransport({url,enabled:true,fetcher:async()=>{calls++}})({payload:'x'.repeat(4101001)}),/TOO_LARGE/);assert.equal(calls,0)});
+await check(async()=>{let cancelled=false;await assert.rejects(()=>companionTransport({url,enabled:true,fetcher:async()=>({status:200,body:new ReadableStream({start(c){c.enqueue(new Uint8Array(4101001))},cancel(){cancelled=true}})})})(wire),/TRANSPORT_FAILED/);assert.equal(cancelled,true)});
+console.log(JSON.stringify({suite:'Dormant Google web-app HTTP transport',status:'PASS',checks,externalRequests:0}));

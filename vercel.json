@@ -5,7 +5,7 @@
   "outputDirectory": "dist",
   "functions": {
     "api/**/*.js": {
-      "includeFiles": "lib/**"
+      "includeFiles": "{lib/**,server-backup/*.mjs,server-backup/*.cjs,scripts/backup-crypto.mjs}"
     }
   },
   "headers": [

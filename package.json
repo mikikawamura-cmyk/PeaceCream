@@ -2,12 +2,17 @@
   "name": "peacecream",
   "version": "1.0.0",
   "private": true,
-  "description": "PeaceCream — Create and Discover your own recipe for peace",
+  "description": "PeaceCream \u2014 Create and Discover your own recipe for peace",
   "scripts": {
-    "test": "node scripts/test.mjs && node tests/responses.mjs && node tests/database.mjs && node tests/integration.mjs && node tests/mfa.mjs && node tests/recovery.mjs && node tests/session-state.mjs",
+    "test": "node scripts/test.mjs && node tests/responses.mjs && node tests/database.mjs && node tests/integration.mjs && node tests/mfa.mjs && node tests/recovery.mjs && node tests/session-state.mjs && node server-backup/tests/run.mjs",
     "build": "node scripts/build.mjs",
-    "preview": "node scripts/preview.mjs"
+    "preview": "node scripts/preview.mjs",
+    "test:server-backup": "node server-backup/tests/run.mjs"
   },
-  "engines": { "node": ">=22" },
-  "devDependencies": {"@electric-sql/pglite":"0.5.16"}
+  "engines": {
+    "node": ">=22"
+  },
+  "devDependencies": {
+    "@electric-sql/pglite": "0.5.16"
+  }
 }

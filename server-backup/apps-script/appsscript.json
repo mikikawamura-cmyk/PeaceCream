@@ -1,0 +1,11 @@
+{
+  "timeZone": "Etc/UTC",
+  "runtimeVersion": "V8",
+  "exceptionLogging": "NONE",
+  "oauthScopes": [
+    "https://www.googleapis.com/auth/drive.file",
+    "https://www.googleapis.com/auth/script.external_request",
+    "https://www.googleapis.com/auth/script.send_mail"
+  ],
+  "dependencies": {"enabledAdvancedServices": [{"userSymbol": "Drive", "serviceId": "drive", "version": "v3"}]}
+}

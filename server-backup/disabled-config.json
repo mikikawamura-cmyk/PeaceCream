@@ -1,0 +1,14 @@
+{
+  "mode": "disabled",
+  "syntheticOnly": true,
+  "deploymentApproved": false,
+  "googleConnectionApproved": false,
+  "oauthApproved": false,
+  "emailsApproved": false,
+  "schedulesApproved": false,
+  "realCollectionApproved": false,
+  "projectRef": null,
+  "ownerEmail": null,
+  "archiveMaxBytes": 3000000,
+  "productionReady": false
+}

@@ -1,4 +1,4 @@
-// Offline application archives. Never imported by browser code or API handlers.
+// Shared server/offline application archive codec. Never import into browser code.
 import{createCipheriv,createDecipheriv,randomBytes}from'node:crypto';
 const magic=Buffer.from('PeaceCreamBackup1\n');
 export function seal(value,key){if(key.length!==32)throw Error('A 32-byte backup key is required.');const iv=randomBytes(12),cipher=createCipheriv('aes-256-gcm',key,iv);cipher.setAAD(magic);const payload=Buffer.concat([cipher.update(JSON.stringify(value),'utf8'),cipher.final()]);return Buffer.concat([magic,iv,cipher.getAuthTag(),payload])}
