@@ -4,7 +4,7 @@
   "private": true,
   "description": "PeaceCream \u2014 Create and Discover your own recipe for peace",
   "scripts": {
-    "test": "node scripts/test.mjs && node tests/responses.mjs && node tests/database.mjs && node tests/integration.mjs && node tests/mfa.mjs && node tests/recovery.mjs && node tests/session-state.mjs && node server-backup/tests/run.mjs",
+    "test": "node scripts/test.mjs && node tests/responses.mjs && node tests/database.mjs && node tests/integration.mjs && node tests/mfa.mjs && node tests/recovery.mjs && node tests/session-state.mjs && node server-backup/tests/run.mjs && node server-backup/tests/cloud-rehearsal.mjs",
     "build": "node scripts/build.mjs",
     "preview": "node scripts/preview.mjs",
     "test:server-backup": "node server-backup/tests/run.mjs"
